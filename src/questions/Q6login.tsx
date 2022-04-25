@@ -3,6 +3,8 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Q.css';
+import { useState } from 'react';
+import { loginUser } from '../plugins/firebase';
 
 /**
  * Q6
@@ -13,11 +15,20 @@ import '../styles/Q.css';
  * by ゆうじろう
  *
  */
+
 const Q6login = () => {
+  const [emailAddress, setEmailAddress] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+
   const navigate = useNavigate();
   const handleSignIn = () => {
     console.log('==== signIn start ====');
-    navigate('/question6/main');
+    const user = loginUser(emailAddress, password);
+    if (isLogin) {
+      navigate('/question6/main');
+    }
+
   };
   return (
     <Layout>
@@ -26,11 +37,15 @@ const Q6login = () => {
           <h1>Firebase authを用いてログインが実装できるようにしてください！</h1>
           <h1>login</h1>
           <div>
-            <TextField id="outlined-basic" label="Email" variant="outlined" />
+            <TextField
+              id="outlined-basic"
+              label="Email"
+              variant="outlined"
+              onChange={(email) => setEmailAddress(email.target.value)} />
             <TextField
               id="outlined-basic"
               label="Password"
-              variant="outlined"
+              variant="outlined" onChange={(password) => setPassword(password.target.value)}
             />
           </div>
           <br />
